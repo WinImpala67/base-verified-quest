@@ -4,6 +4,8 @@ const status = document.getElementById("status");
 
 const BASE_SEPOLIA_CHAIN_ID = "0x14a34";
 
+const QUEST_CONTRACT_ADDRESS = "";
+
 let connectedAddress = null;
 
 async function checkNetwork() {
@@ -14,7 +16,7 @@ async function checkNetwork() {
   return chainId === BASE_SEPOLIA_CHAIN_ID;
 }
 
-connectButton.addEventListener("click", async () => {
+async function connectWallet() {
   if (!window.ethereum) {
     status.textContent = "Please install a Web3 wallet.";
     return;
@@ -41,11 +43,18 @@ connectButton.addEventListener("click", async () => {
   } catch (error) {
     status.textContent = "Wallet connection was rejected.";
   }
-});
+}
+
+connectButton.addEventListener("click", connectWallet);
 
 verifyButton.addEventListener("click", () => {
   if (!connectedAddress) {
     status.textContent = "Please connect your wallet first.";
+    return;
+  }
+
+  if (!QUEST_CONTRACT_ADDRESS) {
+    status.textContent = "Quest contract is not deployed yet.";
     return;
   }
 
