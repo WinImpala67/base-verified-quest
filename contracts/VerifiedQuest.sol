@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 
 contract VerifiedQuest {
     string public constant QUEST_NAME = "Base Verified Quest";
+    string public constant QUEST_VERSION = "1";
 
     mapping(address => bool) public participants;
 
