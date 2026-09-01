@@ -2,7 +2,17 @@ const connectButton = document.getElementById("connectButton");
 const verifyButton = document.getElementById("verifyButton");
 const status = document.getElementById("status");
 
+const BASE_SEPOLIA_CHAIN_ID = "0x14a34";
+
 let connectedAddress = null;
+
+async function checkNetwork() {
+  const chainId = await window.ethereum.request({
+    method: "eth_chainId"
+  });
+
+  return chainId === BASE_SEPOLIA_CHAIN_ID;
+}
 
 connectButton.addEventListener("click", async () => {
   if (!window.ethereum) {
@@ -16,6 +26,14 @@ connectButton.addEventListener("click", async () => {
     });
 
     connectedAddress = accounts[0];
+
+    const isBaseSepolia = await checkNetwork();
+
+    if (!isBaseSepolia) {
+      status.textContent = "Please switch your wallet to Base Sepolia.";
+      verifyButton.disabled = true;
+      return;
+    }
 
     status.textContent = `Connected: ${connectedAddress}`;
     connectButton.textContent = "Wallet Connected";
